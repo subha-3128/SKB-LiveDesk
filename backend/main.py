@@ -32,6 +32,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+def startup_event():
+    from auth import hash_password
+    db = next(get_db())
+    try:
+        user = db.query(User).filter(User.email == "bepari@gmail.com").first()
+        if not user:
+            db_user = User(
+                name="Bepari & Brothers",
+                email="bepari@gmail.com",
+                hashed_password=hash_password("Subho@123"),
+                role="OWNER"
+            )
+            db.add(db_user)
+            db.commit()
+    except Exception as e:
+        print(f"Startup seed exception: {e}")
+    finally:
+        db.close()
+
 # Authentication Routes
 @app.post("/api/auth/login", response_model=Token)
 def login(login_data: UserLogin, db: Session = Depends(get_db)):
