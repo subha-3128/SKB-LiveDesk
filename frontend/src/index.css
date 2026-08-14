@@ -159,9 +159,9 @@ html, body, #root {
   z-index: -10;
   background-color: var(--color-ivory);
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(74, 23, 51, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(183, 110, 121, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(231, 222, 216, 0.25) 0%, transparent 60%);
+    radial-gradient(circle at 15% 25%, rgba(74, 23, 51, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(183, 110, 121, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(231, 222, 216, 0.4) 0%, transparent 70%);
   overflow: hidden;
 }
 
@@ -170,28 +170,27 @@ html, body, #root {
   content: '';
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.45;
-  mix-blend-mode: multiply;
+  filter: blur(120px);
+  opacity: 0.65;
   animation: liquidFloat 25s infinite alternate ease-in-out;
 }
 
 .glass-bg-blobs::before {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(183, 110, 121, 0.2) 0%, transparent 70%);
-  top: -10%;
-  left: 20%;
-  animation-duration: 20s;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(183, 110, 121, 0.35) 0%, transparent 70%);
+  top: -15%;
+  left: 15%;
+  animation-duration: 22s;
 }
 
 .glass-bg-blobs::after {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(74, 23, 51, 0.15) 0%, transparent 70%);
-  bottom: -10%;
-  right: 15%;
-  animation-duration: 28s;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(74, 23, 51, 0.28) 0%, transparent 70%);
+  bottom: -15%;
+  right: 10%;
+  animation-duration: 30s;
 }
 
 @keyframes liquidFloat {
