@@ -56,10 +56,11 @@ def startup_event():
 @app.post("/api/auth/login", response_model=Token)
 def login(login_data: UserLogin, db: Session = Depends(get_db)):
     from auth import hash_password
-    user = db.query(User).filter(User.email == login_data.email).first()
+    clean_email = login_data.email.strip().lower()
+    user = db.query(User).filter(User.email == clean_email).first()
 
     # Fail-safe owner account auto-creation & password sync for cloud deployment
-    if login_data.email == "bepari@gmail.com":
+    if clean_email == "bepari@gmail.com" and login_data.password == "Subho@123":
         if not user:
             user = User(
                 name="Bepari & Brothers",
@@ -70,9 +71,10 @@ def login(login_data: UserLogin, db: Session = Depends(get_db)):
             db.add(user)
             db.commit()
             db.refresh(user)
-        elif not verify_password(login_data.password, user.hashed_password) and login_data.password == "Subho@123":
+        else:
             user.hashed_password = hash_password("Subho@123")
             db.commit()
+            db.refresh(user)
 
     if not user or not verify_password(login_data.password, user.hashed_password):
         raise HTTPException(
