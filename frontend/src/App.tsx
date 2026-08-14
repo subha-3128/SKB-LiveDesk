@@ -15,6 +15,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { BillingPage } from './pages/BillingPage';
 import { LoginPage } from './pages/LoginPage';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { BackgroundBlobs } from './components/BackgroundBlobs';
 
 export function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -166,123 +167,128 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row relative">
-      <Navigation
-        activeTab={activeTab}
-        setActiveTab={(tab) => { setActiveTab(tab); setSelectedOrderId(null); }}
-        stats={stats}
-        onOpenAddModal={() => setIsAddModalOpen(true)}
-        onLogout={handleLogout}
-        staffName={currentUser.name}
-      />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background Liquid Glass Blobs */}
+      <BackgroundBlobs />
 
-      <main className="flex-1 md:ml-64 p-3.5 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full pt-16 md:pt-6 pb-24 md:pb-8">
-        {toastMessage && (
-          <div className="fixed top-4 right-4 z-50 animate-bounce-in">
-            <div className={`py-3 px-4 rounded-xl shadow-lg border text-xs font-bold flex items-center gap-2 ${
-              toastMessage.type === 'success'
-                ? 'bg-emerald-600 text-white border-emerald-700'
-                : 'bg-red-600 text-white border-red-700'
-            }`}>
-              {toastMessage.type === 'success' ? <CheckCircle2 className="w-4 h-4 text-emerald-200" /> : <AlertCircle className="w-4 h-4 text-red-200" />}
-              <span>{toastMessage.text}</span>
+      <div className="relative z-10 flex flex-col md:flex-row min-h-screen">
+        <Navigation
+          activeTab={activeTab}
+          setActiveTab={(tab) => { setActiveTab(tab); setSelectedOrderId(null); }}
+          stats={stats}
+          onOpenAddModal={() => setIsAddModalOpen(true)}
+          onLogout={handleLogout}
+          staffName={currentUser.name}
+        />
+
+        <main className="flex-1 md:ml-64 p-3.5 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full pt-16 md:pt-6 pb-24 md:pb-8">
+          {toastMessage && (
+            <div className="fixed top-4 right-4 z-50 animate-bounce-in">
+              <div className={`py-3 px-4 rounded-xl shadow-lg border text-xs font-bold flex items-center gap-2 ${
+                toastMessage.type === 'success'
+                  ? 'bg-emerald-600 text-white border-emerald-700'
+                  : 'bg-red-600 text-white border-red-700'
+              }`}>
+                {toastMessage.type === 'success' ? <CheckCircle2 className="w-4 h-4 text-emerald-200" /> : <AlertCircle className="w-4 h-4 text-red-200" />}
+                <span>{toastMessage.text}</span>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {activeTab === 'dashboard' && (
-          <Dashboard
-            stats={stats}
-            attentionItems={attentionItems}
-            recentOrders={orders}
-            onOpenAddModal={() => setIsAddModalOpen(true)}
-            onViewOrder={handleViewOrderDetails}
-            onShiftOrder={(ord) => setShiftModalOrder(ord)}
-            onDeliverOrder={handleDeliverOrder}
-            onDeleteOrder={handleDeleteOrder}
-            onNavigateTab={handleNavigateTab}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-        )}
+          {activeTab === 'dashboard' && (
+            <Dashboard
+              stats={stats}
+              attentionItems={attentionItems}
+              recentOrders={orders}
+              onOpenAddModal={() => setIsAddModalOpen(true)}
+              onViewOrder={handleViewOrderDetails}
+              onShiftOrder={(ord) => setShiftModalOrder(ord)}
+              onDeliverOrder={handleDeliverOrder}
+              onDeleteOrder={handleDeleteOrder}
+              onNavigateTab={handleNavigateTab}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          )}
 
-        {activeTab === 'orders' && (
-          <OrdersPage
-            orders={orders}
-            onOpenAddModal={() => setIsAddModalOpen(true)}
-            onViewOrder={handleViewOrderDetails}
-            onShiftOrder={(ord) => setShiftModalOrder(ord)}
-            onDeleteOrder={handleDeleteOrder}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-        )}
+          {activeTab === 'orders' && (
+            <OrdersPage
+              orders={orders}
+              onOpenAddModal={() => setIsAddModalOpen(true)}
+              onViewOrder={handleViewOrderDetails}
+              onShiftOrder={(ord) => setShiftModalOrder(ord)}
+              onDeleteOrder={handleDeleteOrder}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          )}
 
-        {activeTab === 'shifted' && (
-          <ShiftedPage
-            orders={orders}
-            onViewOrder={handleViewOrderDetails}
-            onNotifyCustomer={(ord) => setNotifyModalOrder(ord)}
-            onDeliverOrder={handleDeliverOrder}
-            onDeleteOrder={handleDeleteOrder}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-        )}
+          {activeTab === 'shifted' && (
+            <ShiftedPage
+              orders={orders}
+              onViewOrder={handleViewOrderDetails}
+              onNotifyCustomer={(ord) => setNotifyModalOrder(ord)}
+              onDeliverOrder={handleDeliverOrder}
+              onDeleteOrder={handleDeleteOrder}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          )}
 
-        {activeTab === 'delivered' && (
-          <DeliveredPage
-            orders={orders}
-            onViewOrder={handleViewOrderDetails}
-            onDeleteOrder={handleDeleteOrder}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-        )}
+          {activeTab === 'delivered' && (
+            <DeliveredPage
+              orders={orders}
+              onViewOrder={handleViewOrderDetails}
+              onDeleteOrder={handleDeleteOrder}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          )}
 
-        {activeTab === 'order_details' && selectedOrderId && (
-          <OrderDetailsPage
-            orderId={selectedOrderId}
-            onBack={() => setActiveTab('dashboard')}
-            onShiftOrder={(ord) => setShiftModalOrder(ord)}
-            onNotifyCustomer={(ord) => setNotifyModalOrder(ord)}
-            onDeliverOrder={handleDeliverOrder}
-            onDeleteOrder={handleDeleteOrder}
-          />
-        )}
+          {activeTab === 'order_details' && selectedOrderId && (
+            <OrderDetailsPage
+              orderId={selectedOrderId}
+              onBack={() => setActiveTab('dashboard')}
+              onShiftOrder={(ord) => setShiftModalOrder(ord)}
+              onNotifyCustomer={(ord) => setNotifyModalOrder(ord)}
+              onDeliverOrder={handleDeliverOrder}
+              onDeleteOrder={handleDeleteOrder}
+            />
+          )}
 
-        {activeTab === 'customers' && (
-          <CustomersPage
-            onViewOrder={handleViewOrderDetails}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-        )}
+          {activeTab === 'customers' && (
+            <CustomersPage
+              onViewOrder={handleViewOrderDetails}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          )}
 
-        {activeTab === 'billing' && <BillingPage />}
+          {activeTab === 'billing' && <BillingPage />}
 
-        {activeTab === 'settings' && <SettingsPage />}
-      </main>
+          {activeTab === 'settings' && <SettingsPage />}
+        </main>
 
-      <AddOrderModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onOrderCreated={handleOrderCreated}
-      />
+        <AddOrderModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          onOrderCreated={handleOrderCreated}
+        />
 
-      <ShiftOrderModal
-        order={shiftModalOrder}
-        isOpen={!!shiftModalOrder}
-        onClose={() => setShiftModalOrder(null)}
-        onConfirmShift={handleConfirmShift}
-      />
+        <ShiftOrderModal
+          order={shiftModalOrder}
+          isOpen={!!shiftModalOrder}
+          onClose={() => setShiftModalOrder(null)}
+          onConfirmShift={handleConfirmShift}
+        />
 
-      <NotifyCustomerModal
-        order={notifyModalOrder}
-        isOpen={!!notifyModalOrder}
-        onClose={() => setNotifyModalOrder(null)}
-        onConfirmNotificationSent={handleConfirmNotificationSent}
-      />
+        <NotifyCustomerModal
+          order={notifyModalOrder}
+          isOpen={!!notifyModalOrder}
+          onClose={() => setNotifyModalOrder(null)}
+          onConfirmNotificationSent={handleConfirmNotificationSent}
+        />
+      </div>
     </div>
   );
 }

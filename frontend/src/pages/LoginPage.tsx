@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Lock, Mail, AlertCircle, ArrowRight } from 'lucide-react';
 import { apiService } from '../services/api';
+import { BackgroundBlobs } from '../components/BackgroundBlobs';
 
 interface LoginPageProps {
   onLoginSuccess: (user: any) => void;
@@ -30,6 +31,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      <BackgroundBlobs />
       <div className="w-full max-w-md glass-card rounded-3xl p-8 space-y-6 relative z-10">
         <div className="text-center space-y-2">
           <div className="w-16 h-16 rounded-2xl bg-[var(--color-plum)] text-white flex items-center justify-center mx-auto text-2xl font-black shadow-md">
