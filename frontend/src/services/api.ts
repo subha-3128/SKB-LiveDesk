@@ -4,8 +4,21 @@ import type {
   DashboardStats, NeedsAttentionItem, ShopSettings
 } from '../types';
 
+const getBaseURL = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return `${import.meta.env.VITE_API_URL}/api`;
+  }
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname;
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return 'https://skb-livedesk-backend.onrender.com/api';
+    }
+  }
+  return '/api';
+};
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api',
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },
