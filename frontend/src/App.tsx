@@ -167,9 +167,6 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row relative">
-      {/* Background Liquid Glass Blobs */}
-      <div className="glass-bg-blobs no-print" />
-      
       <Navigation
         activeTab={activeTab}
         setActiveTab={(tab) => { setActiveTab(tab); setSelectedOrderId(null); }}
