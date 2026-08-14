@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  --color-plum: #4A1733;
+  --color-plum-hover: #3b1228;
+  --color-rose: #B76E79;
+  --color-rose-light: #F7ECEE;
+  --color-ivory: #FAF7F2;
+  --color-surface: #FFFFFF;
+  --color-charcoal: #252225;
+  --color-taupe: #756B6F;
+  --color-beige: #E7DED8;
+  
+  --color-success: #3F7D5A;
+  --color-success-bg: #EAF4EE;
+  --color-warning: #C58A32;
+  --color-warning-bg: #FDF6E9;
+  --color-danger: #B84A4A;
+  --color-danger-bg: #FDF0F0;
+  --color-info: #557A9A;
+  --color-info-bg: #EEF4F9;
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html, body, #root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Hide scrollbars for horizontal filter chips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF7F2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E7DED8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B76E79;
+}
+
+/* Print Receipt Styles (Enterprise 1-Page A4 4-Up Grid Engine) */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
+  html, body {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  aside, header, nav, button, .no-print {
+    display: none !important;
+  }
+
+  .print-page-4up {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    gap: 4mm !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100vh !important;
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .print-slot {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 135mm !important;
+    box-sizing: border-box !important;
+    border: 1px dashed #888888 !important;
+    border-radius: 4px !important;
+    padding: 2.5mm !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .printable-single {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 15px !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+    box-shadow: none !important;
+  }
+}
