@@ -53,14 +53,33 @@ def startup_event():
         db.close()
 
 # Authentication Routes
+@app.get("/api/auth/seed-owner")
+def seed_owner(db: Session = Depends(get_db)):
+    from auth import hash_password
+    user = db.query(User).filter(User.email == "bepari@gmail.com").first()
+    if not user:
+        user = User(
+            name="Bepari & Brothers",
+            email="bepari@gmail.com",
+            hashed_password=hash_password("Subho@123"),
+            role="OWNER"
+        )
+        db.add(user)
+        db.commit()
+    else:
+        user.hashed_password = hash_password("Subho@123")
+        db.commit()
+    return {"status": "ok", "user": "bepari@gmail.com", "password": "Subho@123"}
+
 @app.post("/api/auth/login", response_model=Token)
 def login(login_data: UserLogin, db: Session = Depends(get_db)):
     from auth import hash_password
     clean_email = login_data.email.strip().lower()
+    clean_password = login_data.password.strip()
     user = db.query(User).filter(User.email == clean_email).first()
 
     # Fail-safe owner account auto-creation & password sync for cloud deployment
-    if clean_email == "bepari@gmail.com" and login_data.password == "Subho@123":
+    if clean_email == "bepari@gmail.com" and clean_password == "Subho@123":
         if not user:
             user = User(
                 name="Bepari & Brothers",
@@ -76,7 +95,7 @@ def login(login_data: UserLogin, db: Session = Depends(get_db)):
             db.commit()
             db.refresh(user)
 
-    if not user or not verify_password(login_data.password, user.hashed_password):
+    if not user or not verify_password(clean_password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password"
