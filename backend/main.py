@@ -71,6 +71,26 @@ def seed_owner(db: Session = Depends(get_db)):
         db.commit()
     return {"status": "ok", "user": "bepari@gmail.com", "password": "Subho@123"}
 
+@app.get("/api/auth/reset-db")
+def reset_db_endpoint(db: Session = Depends(get_db)):
+    from models import OrderEvent, Order, Customer, User
+    db.query(OrderEvent).delete()
+    db.query(Order).delete()
+    db.query(Customer).delete()
+    db.query(User).delete()
+    db.commit()
+    
+    from auth import hash_password
+    user = User(
+        name="Bepari & Brothers",
+        email="bepari@gmail.com",
+        hashed_password=hash_password("Subho@123"),
+        role="OWNER"
+    )
+    db.add(user)
+    db.commit()
+    return {"status": "ok", "message": "Database successfully cleared. Owner account recreated."}
+
 @app.post("/api/auth/login", response_model=Token)
 def login(login_data: UserLogin, db: Session = Depends(get_db)):
     from auth import hash_password
