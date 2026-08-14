@@ -31,7 +31,7 @@ export const Navigation: React.FC<NavigationProps> = ({
   return (
     <>
       {/* DESKTOP SIDEBAR */}
-      <aside className="hidden md:flex flex-col w-64 bg-[var(--color-surface)] border-r border-[var(--color-beige)] min-h-screen fixed left-0 top-0 z-30 shadow-xs">
+      <aside className="hidden md:flex flex-col w-64 glass-panel min-h-screen fixed left-0 top-0 z-30">
         <div className="p-5 border-b border-[var(--color-beige)] bg-gradient-to-b from-[var(--color-rose-light)]/40 to-transparent">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[var(--color-plum)] text-white flex items-center justify-center font-bold text-lg shadow-sm">
@@ -65,7 +65,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl font-medium text-sm transition-all min-h-[44px] ${
                   isActive
                     ? 'bg-[var(--color-plum)] text-white shadow-xs'
-                    : 'text-[var(--color-charcoal)] hover:bg-[var(--color-ivory)] hover:text-[var(--color-plum)]'
+                    : 'text-[var(--color-charcoal)] hover:bg-[var(--color-plum)]/5 hover:text-[var(--color-plum)]'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -88,13 +88,13 @@ export const Navigation: React.FC<NavigationProps> = ({
           })}
         </nav>
 
-        <div className="p-3 border-t border-[var(--color-beige)] space-y-1 bg-[var(--color-ivory)]/50">
+        <div className="p-3 border-t border-[var(--color-beige)] space-y-1 bg-white/20">
           <button
             onClick={() => setActiveTab('settings')}
             className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all min-h-[44px] ${
               activeTab === 'settings'
                 ? 'bg-[var(--color-plum)] text-white'
-                : 'text-[var(--color-charcoal)] hover:bg-white text-[var(--color-taupe)]'
+                : 'text-[var(--color-charcoal)] hover:bg-white/30 text-[var(--color-taupe)]'
             }`}
           >
             <Settings className="w-5 h-5" />
@@ -108,7 +108,7 @@ export const Navigation: React.FC<NavigationProps> = ({
             </div>
             <button
               onClick={onLogout}
-              className="p-2 text-[var(--color-taupe)] hover:text-[var(--color-danger)] rounded-lg hover:bg-red-50 transition-colors"
+              className="p-2 text-[var(--color-taupe)] hover:text-[var(--color-danger)] rounded-lg hover:bg-red-50/50 transition-colors"
               title="Logout"
             >
               <LogOut className="w-4 h-4" />
@@ -118,7 +118,7 @@ export const Navigation: React.FC<NavigationProps> = ({
       </aside>
 
       {/* MOBILE TOP BAR */}
-      <header className="md:hidden fixed top-0 left-0 right-0 bg-[var(--color-surface)] border-b border-[var(--color-beige)] z-30 px-4 py-2.5 flex items-center justify-between shadow-xs">
+      <header className="md:hidden fixed top-0 left-0 right-0 glass-header z-30 px-4 py-2.5 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-[var(--color-plum)] text-white flex items-center justify-center font-black text-xs shrink-0">
             BB
@@ -139,7 +139,7 @@ export const Navigation: React.FC<NavigationProps> = ({
           </button>
           <button
             onClick={() => setActiveTab('settings')}
-            className="p-2 rounded-lg text-[var(--color-taupe)] hover:bg-gray-100 min-h-[36px]"
+            className="p-2 rounded-lg text-[var(--color-taupe)] hover:bg-white/30 min-h-[36px]"
           >
             <Settings className="w-4.5 h-4.5" />
           </button>
@@ -147,7 +147,7 @@ export const Navigation: React.FC<NavigationProps> = ({
       </header>
 
       {/* MOBILE BOTTOM NAVIGATION BAR */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[var(--color-surface)] border-t border-[var(--color-beige)] z-40 px-2 py-1 flex items-center justify-around shadow-lg min-h-[58px]">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 glass-header border-t border-[var(--color-beige)]/30 z-40 px-2 py-1 flex items-center justify-around min-h-[58px]">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;

@@ -80,7 +80,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   return (
     <div className="space-y-6 pb-12">
       {/* SHOP HEADER BANNER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-[var(--color-beige)] shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-card p-5 rounded-2xl">
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-bold text-[var(--color-plum)]">Bepari &amp; Brothers</h1>
@@ -124,7 +124,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div
               key={idx}
               onClick={() => onNavigateTab(card.tab)}
-              className="bg-white p-4.5 rounded-2xl border border-[var(--color-beige)] shadow-xs hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+              className="glass-card p-4.5 rounded-2xl cursor-pointer group flex flex-col justify-between"
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-[var(--color-taupe)]">{card.title}</span>
@@ -145,7 +145,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       {/* RECENT ORDERS TABLE SECTION */}
       <div className="space-y-3">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-[var(--color-beige)] shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 glass-card p-4 rounded-2xl">
           <div className="flex items-center justify-between w-full sm:w-auto">
             <h2 className="text-base font-bold text-[var(--color-charcoal)]">Recent Orders</h2>
             <button
@@ -178,7 +178,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
 
         {recentOrders.length === 0 ? (
-          <div className="bg-white rounded-2xl p-12 text-center border border-[var(--color-beige)] space-y-3 shadow-xs">
+          <div className="glass-card rounded-2xl p-12 text-center space-y-3">
             <div className="w-12 h-12 rounded-full bg-[var(--color-ivory)] text-[var(--color-taupe)] flex items-center justify-center mx-auto text-xl">
               📦
             </div>
@@ -209,7 +209,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               ))}
             </div>
 
-            <div className="hidden md:block bg-white rounded-2xl border border-[var(--color-beige)] overflow-hidden shadow-xs">
+            <div className="hidden md:block glass-card rounded-2xl overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>

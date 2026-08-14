@@ -169,8 +169,7 @@ export const BillingPage: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-12">
-      {/* PAGE HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-[var(--color-beige)] shadow-xs no-print">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-card p-5 rounded-2xl no-print">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-[var(--color-plum)] text-white flex items-center justify-center shadow-xs">
             <Receipt className="w-5 h-5" />
@@ -230,7 +229,7 @@ export const BillingPage: React.FC = () => {
       {/* BILLING WORKSPACE GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 no-print">
         {/* LEFT COLUMN: BILLING DESK & CUSTOMER SETTINGS */}
-        <div className="bg-white p-5 rounded-2xl border border-[var(--color-beige)] shadow-xs space-y-4 h-fit">
+        <div className="glass-card p-5 rounded-2xl space-y-4 h-fit">
           <div className="border-b border-[var(--color-beige)] pb-2.5 flex items-center justify-between">
             <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--color-plum)] flex items-center gap-2">
               <User className="w-4 h-4" /> Billing Desk Controls
@@ -323,7 +322,7 @@ export const BillingPage: React.FC = () => {
 
         {/* RIGHT COLUMN: ITEMIZED BILL & PREVIEW */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-2xl border border-[var(--color-beige)] shadow-xs space-y-4">
+          <div className="glass-card p-6 rounded-2xl space-y-4">
             <div className="flex items-center justify-between border-b border-[var(--color-beige)] pb-3">
               <h2 className="text-base font-bold text-[var(--color-charcoal)]">Itemized Bill Items</h2>
               <button
@@ -413,7 +412,7 @@ export const BillingPage: React.FC = () => {
           </div>
 
           {/* 4-UP A4 SHEET PREVIEW ON SCREEN */}
-          <div className="bg-white p-6 rounded-2xl border border-[var(--color-beige)] shadow-sm space-y-4">
+          <div className="glass-card p-6 rounded-2xl space-y-4">
             <div className="flex items-center justify-between border-b pb-2">
               <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-plum)] flex items-center gap-1.5">
                 <Grid className="w-4 h-4" /> A4 Paper Layout Preview (4 Bills Per Sheet)
