@@ -202,6 +202,21 @@ def delete_order(db: Session, order_id: int) -> bool:
     db.commit()
     return True
 
+def delete_customer(db: Session, customer_id: int) -> bool:
+    customer = db.query(Customer).filter(Customer.id == customer_id).first()
+    if not customer:
+        raise ValueError("Customer not found")
+    
+    # Cascade delete orders and their events manually for extra safety
+    orders = db.query(Order).filter(Order.customer_id == customer_id).all()
+    for o in orders:
+        db.query(OrderEvent).filter(OrderEvent.order_id == o.id).delete()
+        db.delete(o)
+        
+    db.delete(customer)
+    db.commit()
+    return True
+
 def enrich_order_response(order: Order, db: Session) -> dict:
     c = order.customer
     settings = get_shop_settings(db)

@@ -70,3 +70,30 @@ def test_delete_order():
 
     get_res = client.get(f"/api/orders/{ord_id}")
     assert get_res.status_code == 404
+
+def test_delete_customer():
+    # Create order which creates a customer
+    res = client.post("/api/orders", json={
+        "customer_name": "Test Delete Customer",
+        "phone": "9998887779",
+        "whatsapp_phone": "9998887779",
+        "address": "Test Customer Address",
+        "price": 1000,
+        "source": "Instagram Live"
+    })
+    assert res.status_code in [200, 201]
+    cust_id = res.json()["customer_id"]
+    ord_id = res.json()["id"]
+
+    # Delete the customer
+    del_res = client.delete(f"/api/customers/{cust_id}")
+    assert del_res.status_code == 200
+    assert del_res.json()["success"] is True
+
+    # Customer profile should be gone (404)
+    get_cust_res = client.get(f"/api/customers/{cust_id}")
+    assert get_cust_res.status_code == 404
+
+    # Order should also be gone due to cascade delete
+    get_ord_res = client.get(f"/api/orders/{ord_id}")
+    assert get_ord_res.status_code == 404

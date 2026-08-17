@@ -302,6 +302,18 @@ def get_customer_profile(customer_id: int, db: Session = Depends(get_db)):
         "orders": enriched_orders
     }
 
+@app.delete("/api/customers/{customer_id}")
+def delete_customer(
+    customer_id: int,
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user)
+):
+    try:
+        crud.delete_customer(db, customer_id)
+        return {"success": True, "message": f"Customer #{customer_id} deleted successfully"}
+    except ValueError as ve:
+        raise HTTPException(status_code=404, detail=str(ve))
+
 # Settings Endpoints
 @app.get("/api/settings", response_model=ShopSettingsSchema)
 def get_settings(db: Session = Depends(get_db)):
