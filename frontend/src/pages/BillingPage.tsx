@@ -5,8 +5,8 @@ import { apiService } from '../services/api';
 interface BillItem {
   id: string;
   description: string;
-  quantity: number;
-  price: number;
+  quantity: number | '';
+  price: number | '';
 }
 
 export const BillingPage: React.FC = () => {
@@ -23,8 +23,8 @@ export const BillingPage: React.FC = () => {
   const [printMode, setPrintMode] = useState<'4-up' | 'single' | '1' | '2' | '3' | '4'>('4-up');
 
   const [items, setItems] = useState<BillItem[]>([
-    { id: '1', description: 'Designer Blouse Item', quantity: 1, price: 899 },
-    { id: '2', description: 'Silk Dupatta / Saree', quantity: 1, price: 450 }
+    { id: '1', description: 'Designer Blouse Item', quantity: 1, price: 0 },
+    { id: '2', description: 'Silk Dupatta / Saree', quantity: 1, price: 0 }
   ]);
 
   // Phone lookup for existing customers
@@ -63,7 +63,7 @@ export const BillingPage: React.FC = () => {
     }));
   };
 
-  const subtotal = items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+  const subtotal = items.reduce((sum, item) => sum + (Number(item.quantity) * Number(item.price)), 0);
   const grandTotal = Math.max(0, subtotal - discountAmount);
 
   // Generate clean WhatsApp message
@@ -73,7 +73,7 @@ export const BillingPage: React.FC = () => {
     msg += `Customer: ${customerName || 'Valued Customer'}\n\n`;
     msg += `*Items Purchased:*\n`;
     items.forEach((item, idx) => {
-      msg += `${idx + 1}. ${item.description} (x${item.quantity}) - ₹${item.quantity * item.price}\n`;
+      msg += `${idx + 1}. ${item.description} (x${item.quantity || 0}) - ₹${Number(item.quantity) * Number(item.price)}\n`;
     });
     if (discountAmount > 0) {
       msg += `Discount: -₹${discountAmount}\n`;
@@ -108,7 +108,7 @@ export const BillingPage: React.FC = () => {
     setDiscountAmount(0);
     setInvoiceNo(`INV-${Math.floor(100000 + Math.random() * 900000)}`);
     setItems([
-      { id: '1', description: 'Designer Blouse Item', quantity: 1, price: 899 }
+      { id: '1', description: 'Designer Blouse Item', quantity: 1, price: 0 }
     ]);
   };
 
@@ -139,8 +139,8 @@ export const BillingPage: React.FC = () => {
         <div className="py-1 space-y-0.5">
           {items.map((it, i) => (
             <div key={i} className="flex justify-between text-[9px] leading-tight">
-              <span className="truncate pr-1">{i + 1}. {it.description} (x{it.quantity})</span>
-              <span className="font-bold shrink-0">₹{(it.quantity * it.price).toLocaleString('en-IN')}</span>
+              <span className="truncate pr-1">{i + 1}. {it.description} (x{it.quantity || 0})</span>
+              <span className="font-bold shrink-0">₹{(Number(it.quantity) * Number(it.price)).toLocaleString('en-IN')}</span>
             </div>
           ))}
         </div>
@@ -364,7 +364,10 @@ export const BillingPage: React.FC = () => {
                           type="number"
                           min="1"
                           value={item.quantity}
-                          onChange={(e) => updateItem(item.id, 'quantity', Math.max(1, Number(e.target.value)))}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            updateItem(item.id, 'quantity', val === '' ? '' : Math.max(1, Number(val)));
+                          }}
                           className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-center min-h-[36px]"
                         />
                       </td>
@@ -372,13 +375,16 @@ export const BillingPage: React.FC = () => {
                         <input
                           type="number"
                           min="0"
-                          value={item.price || ''}
-                          onChange={(e) => updateItem(item.id, 'price', Number(e.target.value) || 0)}
+                          value={item.price}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            updateItem(item.id, 'price', val === '' ? '' : Math.max(0, Number(val)));
+                          }}
                           className="w-full px-2 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-right min-h-[36px]"
                         />
                       </td>
                       <td className="py-2.5 px-3 text-right font-black text-[var(--color-plum)]">
-                        ₹{(item.quantity * item.price).toLocaleString('en-IN')}
+                        ₹{(Number(item.quantity) * Number(item.price)).toLocaleString('en-IN')}
                       </td>
                       <td className="py-2.5 px-3 text-center">
                         <button
@@ -509,8 +515,8 @@ export const BillingPage: React.FC = () => {
               <div className="space-y-1.5">
                 {items.map((it, i) => (
                   <div key={i} className="flex justify-between text-xs font-medium">
-                    <span className="truncate flex-1 pr-2">{i + 1}. {it.description} (x{it.quantity})</span>
-                    <span className="font-bold shrink-0">₹{(it.quantity * it.price).toLocaleString('en-IN')}</span>
+                    <span className="truncate flex-1 pr-2">{i + 1}. {it.description} (x{it.quantity || 0})</span>
+                    <span className="font-bold shrink-0">₹{(Number(it.quantity) * Number(it.price)).toLocaleString('en-IN')}</span>
                   </div>
                 ))}
               </div>
